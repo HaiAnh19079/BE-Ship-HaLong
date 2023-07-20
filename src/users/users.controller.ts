@@ -29,8 +29,8 @@ export class UsersController {
     @Get()
     @ResponseMessage('Get all users with paginate')
     findAll(
-        @Query('page') page: string,
-        @Query('limit') limit: string,
+        @Query('current') page: string,
+        @Query('pageSize') limit: string,
         @Query() query: string,
     ) {
         return this.usersService.findAll(+page, +limit, query);

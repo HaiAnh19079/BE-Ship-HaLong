@@ -100,8 +100,8 @@ export class OrdersService {
     async findAll(pageCurrent: number, limit: number, qs: string) {
         const { filter, projection, population } = aqp(qs);
         let { sort }: { sort: any } = aqp(qs);
-        delete filter.page;
-        delete filter.limit;
+        delete filter.current;
+        delete filter.pageSize;
         if (filter.senderPhoneNumber) {
             filter['deliveryInformation.senderInformation.senderPhoneNumber'] =
                 filter.senderPhoneNumber;

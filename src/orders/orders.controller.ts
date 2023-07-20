@@ -27,11 +27,10 @@ export class OrdersController {
     @Get()
     @ResponseMessage('get list order with paginate')
     findAll(
-        @Query('page') page: string,
-        @Query('limit') limit: string,
+        @Query('current') page: string,
+        @Query('pageSize') limit: string,
         @Query() qs: string,
     ) {
-        console.log('qs ctrl: ', qs);
         return this.ordersService.findAll(+page, +limit, qs);
     }
 

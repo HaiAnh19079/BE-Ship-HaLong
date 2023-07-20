@@ -46,7 +46,7 @@ export class UsersService {
         return this.userModel.findOne({ email: userName });
     }
 
-    updateUserToken = async (refreshToken: string, _id: string) => {
+    updateUserToken = async (_id: string, refreshToken: string) => {
         return await this.userModel.updateOne({ _id: _id }, { refreshToken });
     };
 
@@ -93,8 +93,8 @@ export class UsersService {
     async findAll(pageCurrent: number, limit: number, query: string) {
         const { filter, skip, projection, population } = aqp(query);
         let { sort }: { sort: any } = aqp(query);
-        delete filter.page;
-        delete filter.limit;
+        delete filter.current;
+        delete filter.pageSize;
 
         let page = pageCurrent ? pageCurrent : 1;
         let offset = (+page - 1) * +limit;

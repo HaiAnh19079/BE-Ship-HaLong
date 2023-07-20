@@ -51,7 +51,7 @@ export class AuthService {
         const refreshToken = this.createRefreshToken(payload);
 
         //update user token
-        await this.usersService.updateUserToken(refreshToken, _id);
+        await this.usersService.updateUserToken(_id, refreshToken);
 
         //set cookie
         response.clearCookie('refreshToken');
@@ -112,8 +112,8 @@ export class AuthService {
 
                 //update user token
                 await this.usersService.updateUserToken(
-                    refreshToken,
                     _id.toString(),
+                    refreshToken,
                 );
 
                 //set cookie
@@ -140,6 +140,18 @@ export class AuthService {
             throw new BadRequestException(
                 'Refresh token không hợp lệ vui lòng đăng nhập!',
             );
+        }
+    };
+
+    logout = async (user: IUser, response: Response) => {
+        try {
+            response.clearCookie('refreshToken');
+            return await this.usersService.updateUserToken(
+                user._id.toString(),
+                null,
+            );
+        } catch (error) {
+            throw new Error(error);
         }
     };
 }

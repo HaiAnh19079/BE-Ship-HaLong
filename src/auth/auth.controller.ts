@@ -49,4 +49,14 @@ export class AuthController {
         const refreshToken = req.cookies['refreshToken'];
         return this.authService.refreshNewToken(refreshToken, response);
     }
+
+    @Post('/logout')
+    @ResponseMessage('User logout')
+    async handleLogout(
+        @User() user: IUser,
+        @Res({ passthrough: true }) response: Response,
+    ) {
+        const ok = await this.authService.logout(user, response);
+        if (ok) return 'ok';
+    }
 }
