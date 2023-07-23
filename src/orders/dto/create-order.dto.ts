@@ -7,7 +7,11 @@ import {
     IsArray,
     IsNotEmpty,
 } from 'class-validator';
-import { OrderStatusEnum, PaymentMethodEnum } from '../schemas/order.schema';
+import {
+    OrderStatusEnum,
+    PaymentByEnum,
+    PaymentMethodEnum,
+} from '../schemas/order.schema';
 
 class SenderInformationDto {
     senderName: string;
@@ -92,7 +96,7 @@ export class CreateOrderDto1 {
     statusOrder: OrderStatusEnum = OrderStatusEnum.PROCESSING;
 
     @IsEnum(PaymentMethodEnum)
-    paymentmethod: PaymentMethodEnum;
+    paymentMethod: PaymentMethodEnum;
 
     @IsNumber()
     totalOrderValue: number;
@@ -106,6 +110,8 @@ export class CreateOrderDto1 {
 }
 
 export class CreateOrderDto {
+    // information user address
+    @IsNotEmpty()
     @IsString()
     senderName: string;
 
@@ -115,9 +121,7 @@ export class CreateOrderDto {
     @IsString()
     senderPhoneNumber: string;
 
-    @IsEnum(OrderStatusEnum)
-    statusOrder: OrderStatusEnum = OrderStatusEnum.PROCESSING;
-
+    @IsNotEmpty()
     @IsString()
     receiverName: string;
 
@@ -127,12 +131,22 @@ export class CreateOrderDto {
     @IsString()
     receiverPhoneNumber: string;
 
+    // status order
+    @IsEnum(OrderStatusEnum)
+    statusOrder: OrderStatusEnum = OrderStatusEnum.PROCESSING;
+
+    //payment
     @IsEnum(PaymentMethodEnum)
-    paymentmethod: PaymentMethodEnum;
+    paymentMethod: PaymentMethodEnum;
 
+    @IsEnum(PaymentByEnum)
+    paymentBy: PaymentByEnum;
+
+    //note
     @IsString()
-    detailedInformation: string;
+    note: string;
 
+    // information product
     @IsNumber()
     quantity: number;
 
@@ -142,27 +156,29 @@ export class CreateOrderDto {
     @IsNumber()
     weight: number;
 
-    @IsString()
-    typeItem: string;
+    @IsArray()
+    typeItem: string[];
 
     @IsNumber()
-    itemValue: number;
+    codValue: number;
 
-    //
+    // type service
     @IsEnum(serviceTypeEnum)
     ServiceType: serviceTypeEnum;
 
     @IsString()
     preferredDeliveryTime: string;
 
+    // distance
+    @IsNumber()
+    distance: number;
+
+    // price
     @IsNumber()
     totalOrderValue: number;
 
     @IsNumber()
     shippingFee: number;
-
-    @IsNumber()
-    distance: number;
 
     @IsNumber()
     totalPaymentAmount: number;

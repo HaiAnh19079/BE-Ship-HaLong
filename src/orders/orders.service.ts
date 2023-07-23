@@ -38,19 +38,20 @@ export class OrdersService {
     }
     async create(createOrderDto: CreateOrderDto, user: IUser) {
         const {
+            senderName,
             senderAddress,
             senderPhoneNumber,
+            receiverName,
             receiverAddress,
             receiverPhoneNumber,
-            detailedInformation,
-            quantity,
+            note,
             size,
             weight,
             typeItem,
-            itemValue,
+            codValue,
             ServiceType,
             preferredDeliveryTime,
-            paymentmethod,
+            paymentMethod,
             shippingFee,
             statusOrder,
             totalOrderValue,
@@ -58,34 +59,37 @@ export class OrdersService {
             distance,
         } = createOrderDto;
 
+        let orderCreate = 'a';
+
         let order = await this.orderModel.create({
             deliveryInformation: {
                 senderInformation: {
+                    senderName,
                     senderAddress,
                     senderPhoneNumber,
                 },
                 receiverInformation: {
+                    receiverName,
                     receiverAddress,
                     receiverPhoneNumber,
                 },
             },
             itemDetails: {
-                detailedInformation, //description about the items
-                quantity,
                 size,
                 weight,
                 typeItem,
-                itemValue,
+                codValue,
             },
             serviceInformation: {
                 ServiceType,
                 preferredDeliveryTime,
             },
-            paymentmethod,
+            paymentMethod,
             totalOrderValue: totalOrderValue,
             shippingFee: shippingFee,
             statusOrder,
             distance,
+            note,
 
             createdBy: {
                 _id: user._id,

@@ -16,6 +16,10 @@ export enum PaymentMethodEnum {
     CASH = 'CASH',
     BANKING = 'BANKING',
 }
+export enum PaymentByEnum {
+    BY_SENDER = 'BY_SENDER',
+    BY_RECEIVER = 'BY_RECEIVER',
+}
 export enum sizeEnum {
     S = 'S',
     M = 'M',
@@ -44,18 +48,16 @@ export class Order {
 
     @Prop({ type: Object })
     itemDetails: {
-        detailedInformation: string; //description about the items
-        quantity: number;
         size: sizeEnum; //enum
-        weight: string;
-        typeItem: string;
-        itemValue: string; // estimated value of the items
+        weight: number;
+        typeItem: string[];
+        codValue: number; // estimated value of the items
     };
 
     @Prop({ type: Object })
     serviceInformation: {
         ServiceType: serviceTypeEnum; // enum
-        preferredDeliveryTime: string; // the requested delivery time to the receiver's address
+        preferredDeliveryTime: string | Date; // the requested delivery time to the receiver's address
     };
 
     @Prop({
@@ -64,6 +66,13 @@ export class Order {
         default: PaymentMethodEnum.CASH,
     })
     paymentMethod: PaymentMethodEnum; // enum
+
+    @Prop({
+        type: String,
+        enum: PaymentByEnum,
+        default: PaymentByEnum.BY_SENDER,
+    })
+    paymentBy: PaymentByEnum;
 
     @Prop({ type: Object })
     shipper: {
@@ -78,6 +87,9 @@ export class Order {
         default: OrderStatusEnum.PROCESSING,
     })
     statusOrder: OrderStatusEnum; //enum
+
+    @Prop()
+    note: string;
 
     @Prop()
     totalOrderValue: number;
