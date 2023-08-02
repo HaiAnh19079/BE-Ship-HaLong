@@ -13,10 +13,14 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { IUser } from 'src/users/users.interface';
 import { Public, ResponseMessage, User } from 'src/decorator/customize';
+import { OrderGateway } from './order.gateway';
 
 @Controller('orders')
 export class OrdersController {
-    constructor(private readonly ordersService: OrdersService) {}
+    constructor(
+        private readonly ordersService: OrdersService,
+        private orderGateway: OrderGateway,
+    ) {}
 
     @Post()
     create(@Body() createOrderDto: CreateOrderDto, @User() user: IUser) {

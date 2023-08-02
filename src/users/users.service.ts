@@ -25,13 +25,10 @@ export class UsersService {
     };
 
     async doesUserExists(email: string): Promise<any> {
-        const user = await this.userModel.find({
-            userName: email,
-        });
-        if (user.length === 0) {
-            return false;
-        }
-        return true;
+        const user = await this.userModel.findOne({ email });
+        if (user) {
+            return true;
+        } else return false;
     }
 
     isValidPassword(password: string, hash: string) {
@@ -74,9 +71,10 @@ export class UsersService {
 
     async registerUser(registerUserDto: RegisterUserDto) {
         const { name, email, password, phoneNumber } = registerUserDto;
+        console.log('registerUserDto>>>', registerUserDto);
         const passwordHash = this.getHashPassword(password);
 
-        if (!(await this.doesUserExists(email))) {
+        if (await this.doesUserExists(email)) {
             throw new BadRequestException(`Email : ${email} already exists!`);
         }
 
@@ -126,7 +124,6 @@ export class UsersService {
 
     async findOne(id: string) {
         if (!mongoose.Types.ObjectId.isValid(id)) return 'not found user!';
-
         return await this.userModel.findOne({ _id: id }).select('-password');
     }
 

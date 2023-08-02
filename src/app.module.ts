@@ -7,7 +7,6 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
 import { OrdersModule } from './orders/orders.module';
-import { WebsocketGateway } from './websocket.gateway';
 
 @Module({
     imports: [
@@ -35,6 +34,6 @@ import { WebsocketGateway } from './websocket.gateway';
         OrdersModule,
     ],
     controllers: [AppController],
-    providers: [AppService, WebsocketGateway],
+    providers: [AppService],
 })
 export class AppModule {}
